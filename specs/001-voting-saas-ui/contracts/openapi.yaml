@@ -85,7 +85,7 @@ components:
         userName: { type: string }
         role:
           type: string
-          enum: [Presidente, Secretário, Vereador]
+          enum: ["Presidente", "Secretário", "Vereador"]
         chamber: { type: string }
         issuedAt:
           type: string
@@ -115,7 +115,7 @@ components:
         title: { type: string }
         status:
           type: string
-          enum: [Em andamento, Encerrada, Agendada]
+          enum: ["Em andamento", "Encerrada", "Agendada"]
         startedAt:
           type: string
           format: date-time

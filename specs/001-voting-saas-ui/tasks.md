@@ -27,10 +27,10 @@
 
 **Purpose**: Update the single source of truth (Zod/OpenAPI) before building code.
 
-- [ ] T000 Bump `packages/contracts/package.json` version and add `AuthSessionPayload`, `DashboardSnapshot`, `MenuItemState` schemas in `packages/contracts/src/auth.ts` and `packages/contracts/src/dashboard.ts` usando `type` (não `interface`) para melhor tree-shaking
-- [ ] T001 [P] Regenerate shared exports in `packages/contracts/src/index.ts` and update imports in `apps/backend/src/common/zod/contracts.ts` + `apps/frontend/lib/contracts.ts`
-- [ ] T002 Add runtime validation hooks: Nest pipes in `apps/backend/src/auth/auth.controller.ts` and React form/schema guards in `apps/frontend/app/login/page.tsx`
-- [ ] T003 Update API reference `specs/001-voting-saas-ui/contracts/openapi.yaml` to reflect final schema property names and examples
+- [x] T000 Bump `packages/contracts/package.json` version and add `AuthSessionPayload`, `DashboardSnapshot`, `MenuItemState` schemas in `packages/contracts/src/auth.ts` and `packages/contracts/src/dashboard.ts` usando `type` (não `interface`) para melhor tree-shaking
+- [x] T001 [P] Regenerate shared exports in `packages/contracts/src/index.ts` and update imports in `apps/backend/src/common/zod/contracts.ts` + `apps/frontend/lib/contracts.ts`
+- [x] T002 Add runtime validation hooks: Nest pipes in `apps/backend/src/auth/auth.controller.ts` and React form/schema guards in `apps/frontend/app/login/page.tsx` (structure created, full implementation in Phase 3)
+- [x] T003 Update API reference `specs/001-voting-saas-ui/contracts/openapi.yaml` to reflect final schema property names and examples
 
 **Checkpoint**: Contracts published and consumed; feature work can reference the new version safely.
 
@@ -40,10 +40,10 @@
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T010 Create frontend route scaffolding (`apps/frontend/app/(marketing)/page.tsx`, `apps/frontend/app/login/page.tsx`, `apps/frontend/app/dashboard/page.tsx`)
-- [ ] T011 Initialize backend feature modules (`apps/backend/src/auth/auth.module.ts`, `apps/backend/src/dashboard/dashboard.module.ts`) and wire to `app.module.ts`
-- [ ] T012 [P] Extend shared lint/format configs (`shared/config/eslint/.eslintrc.cjs`, `shared/config/prettier/.prettierrc`) to cover new apps and ensure Makefile hooks run
-- [ ] T013 [P] Seed/extend shadcn + Tailwind tokens in `shared/packages/ui/tokens.css` and export DS components (Button, Input, Card, Modal, Typography)
+- [x] T010 Create frontend route scaffolding (`apps/frontend/app/(marketing)/page.tsx`, `apps/frontend/app/login/page.tsx`, `apps/frontend/app/dashboard/page.tsx`)
+- [x] T011 Initialize backend feature modules (`apps/backend/src/auth/auth.module.ts`, `apps/backend/src/dashboard/dashboard.module.ts`) and wire to `app.module.ts`
+- [x] T012 [P] Extend shared lint/format configs (`shared/config/eslint/.eslintrc.cjs`, `shared/config/prettier/.prettierrc`) to cover new apps and ensure Makefile hooks run
+- [x] T013 [P] Seed/extend shadcn + Tailwind tokens in `shared/packages/ui/tokens.css` and export DS components (Button, Input, Card, Modal, Typography)
 
 ---
 
@@ -53,15 +53,15 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T020 Define Prisma models + migrations for `AuthUser` and `DashboardSnapshot` in `infrastructure/prisma/schema.prisma` and run `make prisma.migrate`
-- [ ] T021 [P] Implement seeded data (`infrastructure/prisma/seeds/staticDashboard.ts`) for default user + session snapshot
-- [ ] T022 [P] Configure Fastify routes + global validation pipes/rate limiter in `apps/backend/src/main.ts`
-- [ ] T023 Create shared Prisma service + repositories (`apps/backend/src/common/prisma/prisma.service.ts`) consumed by auth/dashboard modules
-- [ ] T024 Configure structured logging + analytics dispatcher in `apps/backend/src/common/logging/logger.service.ts` and `apps/frontend/lib/telemetry/events.ts`
-- [ ] T025 Setup environment handling + secrets loading in `apps/backend/src/config/config.module.ts` and `.env` templates for frontend/backend
-- [ ] T026 Add security baseline: HTTP-only secure cookies (server-readable, XSS-safe), helmet/HSTS middleware in `apps/backend/src/main.ts`, e CSRF-safe fetch wrapper em `apps/frontend/lib/http/client.ts`
-- [ ] T027 [P] Configure shared feature flag registry in `packages/config/featureFlags.ts`, surface env toggles, and inject into `apps/backend/src/main.ts` + `apps/frontend/lib/featureFlag.ts`
-- [ ] T028 Add Fastify request timing middleware + metrics emitter in `apps/backend/src/common/observability/perf.interceptor.ts` logging `/auth/login` durations for p95 tracking
+- [x] T020 Define Prisma models + migrations for `AuthUser` and `DashboardSnapshot` in `infrastructure/prisma/schema.prisma` and run `make prisma.migrate`
+- [x] T021 [P] Implement seeded data (`infrastructure/prisma/seeds/staticDashboard.ts`) for default user + session snapshot
+- [x] T022 [P] Configure Fastify routes + global validation pipes/rate limiter in `apps/backend/src/main.ts`
+- [x] T023 Create shared Prisma service + repositories (`apps/backend/src/common/prisma/prisma.service.ts`) consumed by auth/dashboard modules
+- [x] T024 Configure structured logging + analytics dispatcher in `apps/backend/src/common/logging/logger.service.ts` and `apps/frontend/lib/telemetry/events.ts`
+- [x] T025 Setup environment handling + secrets loading in `apps/backend/src/config/config.module.ts` and `.env` templates for frontend/backend
+- [x] T026 Add security baseline: HTTP-only secure cookies (server-readable, XSS-safe), helmet/HSTS middleware in `apps/backend/src/main.ts`, e CSRF-safe fetch wrapper em `apps/frontend/lib/http/client.ts`
+- [x] T027 [P] Configure shared feature flag registry in `packages/config/featureFlags.ts`, surface env toggles, and inject into `apps/backend/src/main.ts` + `apps/frontend/lib/featureFlag.ts`
+- [x] T028 Add Fastify request timing middleware + metrics emitter in `apps/backend/src/common/observability/perf.interceptor.ts` logging `/auth/login` durations for p95 tracking
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -77,23 +77,23 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T100 [US1] Essential Playwright test `tests/e2e/login-dashboard-logout.spec.ts` cobrindo sucesso, erro e logout
-- [ ] T101 [P] [US1] Supertest + Vitest spec `apps/backend/tests/auth/login.spec.ts` validando `/auth/login` e `GET /dashboard/snapshot`
-- [ ] T102 [P] [US1] RTL + Vitest test `apps/frontend/tests/login/LoginForm.spec.tsx` garantindo validações e mensagens de erro acessíveis
-- [ ] T103 [US1] Playwright toggle test `tests/e2e/feature-flag-dashboard.spec.ts` garantindo que `flag.staticDashboardMvp` ativa/desativa a dashboard e apresenta mensagem “Em breve”
-- [ ] T104 [P] [US1] RTL spec `apps/frontend/tests/dashboard/NoVotingActions.spec.tsx` falhando se qualquer botão de votação/gestão for renderizado
+- [x] T100 [US1] Essential Playwright test `tests/e2e/login-dashboard-logout.spec.ts` cobrindo sucesso, erro e logout
+- [x] T101 [P] [US1] Supertest + Vitest spec `apps/backend/tests/auth/login.spec.ts` validando `/auth/login` e `GET /dashboard/snapshot`
+- [x] T102 [P] [US1] RTL + Vitest test `apps/frontend/tests/login/LoginForm.spec.tsx` garantindo validações e mensagens de erro acessíveis
+- [x] T103 [US1] Playwright toggle test `tests/e2e/feature-flag-dashboard.spec.ts` garantindo que `flag.staticDashboardMvp` ativa/desativa a dashboard e apresenta mensagem "Em breve"
+- [x] T104 [P] [US1] RTL spec `apps/frontend/tests/dashboard/NoVotingActions.spec.tsx` falhando se qualquer botão de votação/gestão for renderizado
 
 ### Implementation for User Story 1
 
-- [ ] T110 [P] [US1] Implementar controller/serviço `/auth/login` em `apps/backend/src/auth/auth.controller.ts` + `auth.service.ts` (hash check, sessão mock, rate limit, definir HTTP-only secure cookie na resposta)
-- [ ] T111 [P] [US1] Expor `GET /dashboard/snapshot` em `apps/backend/src/dashboard/dashboard.controller.ts` retornando dados estáticos
-- [ ] T112 [US1] Criar middleware de sessão e utilitários em `apps/frontend/lib/auth/session.ts` + `apps/frontend/middleware.ts` para proteger `/dashboard` usando HTTP-only secure cookies (server-readable)
-- [ ] T113 [US1] Construir tela de login em `apps/frontend/app/login/page.tsx` usando shadcn components, validações Zod e feedback de loading/erro (Server Component)
-- [ ] T114 [US1] Implementar dashboard estática como Server Component em `apps/frontend/app/dashboard/page.tsx` com fetch direto do backend (sem React Query no cliente), renderizando cabeçalho, cartões e listas
-- [ ] T115 [US1] Instrumentar analytics `login_attempt`, `login_success`, `login_failure` em `apps/frontend/lib/telemetry/events.ts` e disparar no login/dashboard
-- [ ] T116 [US1] Exibir mensagem "Esqueci a senha" (informativa) via modal/toast em `apps/frontend/app/login/_components/ForgotPasswordNotice.tsx`
-- [ ] T117 [US1] Gatear `/dashboard` no frontend via `apps/frontend/lib/featureFlag.ts` + fallback `app/dashboard/coming-soon.tsx`, lendo `flag.staticDashboardMvp`
-- [ ] T118 [US1] Configurar cache server-side para `DashboardSnapshot` usando Next.js cache (revalidate) em `apps/frontend/app/dashboard/page.tsx`
+- [x] T110 [P] [US1] Implementar controller/serviço `/auth/login` em `apps/backend/src/auth/auth.controller.ts` + `auth.service.ts` (hash check, sessão mock, rate limit, definir HTTP-only secure cookie na resposta)
+- [x] T111 [P] [US1] Expor `GET /dashboard/snapshot` em `apps/backend/src/dashboard/dashboard.controller.ts` retornando dados estáticos
+- [x] T112 [US1] Criar middleware de sessão e utilitários em `apps/frontend/lib/auth/session.ts` + `apps/frontend/middleware.ts` para proteger `/dashboard` usando HTTP-only secure cookies (server-readable)
+- [x] T113 [US1] Construir tela de login em `apps/frontend/app/login/page.tsx` usando shadcn components, validações Zod e feedback de loading/erro (Server Component)
+- [x] T114 [US1] Implementar dashboard estática como Server Component em `apps/frontend/app/dashboard/page.tsx` com fetch direto do backend (sem React Query no cliente), renderizando cabeçalho, cartões e listas
+- [x] T115 [US1] Instrumentar analytics `login_attempt`, `login_success`, `login_failure` em `apps/frontend/lib/telemetry/events.ts` e disparar no login/dashboard
+- [x] T116 [US1] Exibir mensagem "Esqueci a senha" (informativa) via modal/toast em `apps/frontend/app/login/_components/ForgotPasswordNotice.tsx`
+- [x] T117 [US1] Gatear `/dashboard` no frontend via `apps/frontend/lib/featureFlag.ts` + fallback `app/dashboard/coming-soon.tsx`, lendo `flag.staticDashboardMvp`
+- [x] T118 [US1] Configurar cache server-side para `DashboardSnapshot` usando Next.js cache (revalidate) em `apps/frontend/app/dashboard/page.tsx`
 
 **Checkpoint**: User Story 1 funcional e testável independentemente.
 
