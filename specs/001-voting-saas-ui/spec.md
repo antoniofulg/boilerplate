@@ -5,6 +5,14 @@
 **Status**: Draft  
 **Input**: User description: "Construa a Landing Page, Tela de Login (sem registro) e Dashboard estática de um SaaS de Votação Inteligente para Câmara de Vereadores. O MVP deve ser uma versão mínima: exibição fixa na dashboard, sem funcionalidades de votação; itens futuros no menu aparecem desabilitados. O fluxo de login e logout deve ser testável de ponta a ponta."
 
+## Clarifications
+
+### Session 2025-11-22
+
+- Q: Session storage mechanism for Next.js server-side focus → A: HTTP-only secure cookies (server-readable, XSS-safe, enables Server Components)
+- Q: Dashboard data fetching strategy for performance → A: Server Components with direct fetch (no client JS, better performance, aligns with Next.js 16)
+- Q: Landing page rendering strategy for performance → A: Static Site Generation (SSG) - pre-rendered at build time for optimal performance
+
 ## User Scenarios & Testing _(mandatory)_
 
 _Identify which story delivers the constitution-required essential automated test._
@@ -84,8 +92,8 @@ Como usuário autenticado, quero clicar em “Sair” para limpar sessão e volt
 - **FR-005**: Sucesso no login redireciona para dashboard estática com cabeçalho contendo nome do usuário e botão “Sair”.
 - **FR-006**: Dashboard deve conter cartões estáticos: “Sessão Atual”, “Pauta em votação”, lista “Membros Presentes” e “Resultados Recentes” com textos predefinidos.
 - **FR-007**: Menu lateral deve mostrar “Dashboard” ativo e demais itens (“Sessões”, “Pautas”, “Relatórios”, “Configurações”) desabilitados visual e funcionalmente.
-- **FR-008**: Botão “Sair” deve limpar sessão local (storage/context) e retornar o usuário ao login.
-- **FR-009**: Fluxo de logout deve utilizar o mesmo mecanismo de sessão para impedir acesso direto à rota `/dashboard`.
+- **FR-008**: Botão "Sair" deve limpar sessão armazenada em HTTP-only secure cookies e retornar o usuário ao login.
+- **FR-009**: Fluxo de logout deve utilizar cookies HTTP-only seguros para sessão, permitindo validação server-side e impedindo acesso direto à rota `/dashboard`.
 - **FR-010**: “Esqueci a senha” precisa exibir mensagem informando disponibilidade futura sem abrir fluxo real.
 - **FR-011**: Nenhuma ação de votação, gestão ou criação de pautas pode estar interativa neste MVP.
 
@@ -99,8 +107,10 @@ Como usuário autenticado, quero clicar em “Sair” para limpar sessão e volt
 ### Assumptions & Dependencies
 
 - Credenciais válidas padronizadas (ex.: `mesa@camara.gov.br` / `senha123`) serão documentadas para QA e demonstrações.
-- Link “Esqueci a senha” abre modal/toast explicando indisponibilidade atual e canal de suporte temporário (sem fluxo adicional).
+- Link "Esqueci a senha" abre modal/toast explicando indisponibilidade atual e canal de suporte temporário (sem fluxo adicional).
 - Hospedagem reutiliza infraestrutura existente; não há dependência de sistemas externos além do mock localizado.
+- Sessão utiliza HTTP-only secure cookies para compatibilidade com Next.js Server Components e validação server-side.
+- Foco em performance: lógica de componentes mantida no server-side sempre que possível; preferir `type` ao invés de `interface` em TypeScript.
 
 ## UX, Design System & Analytics _(mandatory)_
 
@@ -114,8 +124,9 @@ Como usuário autenticado, quero clicar em “Sair” para limpar sessão e volt
 
 - **Bundle Budget**: Compartilhar componentes para manter bundle inicial <250 KB gzipped; imagens hero otimizadas (SVG).
 - **API Latency Goal**: Mock `/auth/login` responde <50 ms localmente garantindo p95 <300 ms em produção; timeout de 5 s com mensagem amigável.
-- **Code Splitting / Lazy Loading**: Landing carregada inicialmente; módulo autenticado (dashboard) lazy-loaded após login; assets secundários com `loading="lazy"`.
-- **Caching & CDN**: Landing e assets estáticos servidos via CDN existente; respostas de login marcadas como `no-store`.
+- **Code Splitting / Lazy Loading**: Landing page gerada estaticamente (SSG) no build; módulo autenticado (dashboard) lazy-loaded após login; assets secundários com `loading="lazy"`.
+- **Data Fetching Strategy**: Dashboard utiliza Server Components com fetch direto (sem JavaScript no cliente para dados, melhor performance); dados estáticos do snapshot carregados server-side.
+- **Caching & CDN**: Landing page (SSG) e assets estáticos servidos via CDN existente; respostas de login marcadas como `no-store`; dashboard snapshot pode usar cache server-side (Next.js cache).
 - **Monitoring**: Integrar com monitoramento atual (ex.: Sentry/Datadog) para erros JS, tempo de carregamento e eventos analytics críticos.
 - **Feature Flags**: `flag.staticDashboardMvp` ativa dashboard; fallback redireciona usuários autenticados para mensagem “Em breve”.
 
