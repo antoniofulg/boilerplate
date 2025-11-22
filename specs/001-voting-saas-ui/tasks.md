@@ -107,17 +107,17 @@
 
 ### Tests for User Story 2 (Maintain coverage)
 
-- [ ] T200 [US2] RTL test `apps/frontend/tests/landing/LandingPage.spec.tsx` validando seções Hero/Benefícios/Como funciona e CTA fixo
-- [ ] T201 [P] [US2] Playwright viewport regression `tests/e2e/landing-responsive.spec.ts` cobrindo mobile ≤360 px e desktop
+- [x] T200 [US2] RTL test `apps/frontend/tests/landing/LandingPage.spec.tsx` validando seções Hero/Benefícios/Como funciona e CTA fixo
+- [x] T201 [P] [US2] Playwright viewport regression `tests/e2e/landing-responsive.spec.ts` cobrindo mobile ≤360 px e desktop
 
 ### Implementation for User Story 2
 
-- [ ] T210 [P] [US2] Implementar Hero + CTA em `apps/frontend/app/(marketing)/_components/HeroSection.tsx` com copy institucional
-- [ ] T211 [P] [US2] Criar componentes `BenefitsSection` e `HowItWorksSection` em `apps/frontend/app/(marketing)/_components/`
-- [ ] T212 [US2] Criar landing page como SSG (Static Site Generation) em `apps/frontend/app/(marketing)/page.tsx` com CTA sticky/floating que rotea para `/login`, exportando `generateStaticParams` se necessário
-- [ ] T213 [US2] Implementar rodapé institucional em `apps/frontend/app/(marketing)/_components/Footer.tsx`
-- [ ] T214 [US2] Instrumentar evento `landing_cta_click` e `landing_section_view` em `apps/frontend/lib/telemetry/events.ts`
-- [ ] T215 [P] [US2] Configurar code splitting/lazy loading (dynamic imports + `loading=\"lazy\"` imagens hero) em `apps/frontend/app/(marketing)/page.tsx` e validar com `pnpm next:analyze`
+- [x] T210 [P] [US2] Implementar Hero + CTA em `apps/frontend/app/(marketing)/_components/HeroSection.tsx` com copy institucional
+- [x] T211 [P] [US2] Criar componentes `BenefitsSection` e `HowItWorksSection` em `apps/frontend/app/(marketing)/_components/`
+- [x] T212 [US2] Criar landing page como SSG (Static Site Generation) em `apps/frontend/app/(marketing)/page.tsx` com CTA sticky/floating que rotea para `/login`, exportando `generateStaticParams` se necessário
+- [x] T213 [US2] Implementar rodapé institucional em `apps/frontend/app/(marketing)/_components/Footer.tsx`
+- [x] T214 [US2] Instrumentar evento `landing_cta_click` e `landing_section_view` em `apps/frontend/lib/telemetry/events.ts`
+- [x] T215 [P] [US2] Configurar code splitting/lazy loading (dynamic imports + `loading=\"lazy\"` imagens hero) em `apps/frontend/app/(marketing)/page.tsx` e validar com `pnpm next:analyze`
 
 **Checkpoint**: Landing pronta e testável independentemente.
 
@@ -131,15 +131,15 @@
 
 ### Tests for User Story 3 (Optional only if story approved)
 
-- [ ] T300 [US3] Playwright spec `tests/e2e/logout-menu-disabled.spec.ts` verificando logout + resistência a clique em itens desabilitados
-- [ ] T301 [P] [US3] RTL test `apps/frontend/tests/dashboard/SidebarNav.spec.tsx` garantindo `aria-disabled` + feedback
+- [x] T300 [US3] Playwright spec `tests/e2e/logout-menu-disabled.spec.ts` verificando logout + resistência a clique em itens desabilitados
+- [x] T301 [P] [US3] RTL test `apps/frontend/tests/dashboard/SidebarNav.spec.tsx` garantindo `aria-disabled` + feedback
 
 ### Implementation for User Story 3
 
-- [ ] T310 [P] [US3] Implementar botão “Sair” em `apps/frontend/app/dashboard/_components/HeaderActions.tsx` chamando `session.clear()` e roteando para `/login`
-- [ ] T311 [US3] Criar `SidebarNav` com itens desabilitados e tooltip explicativa em `apps/frontend/components/layout/SidebarNav.tsx`
-- [ ] T312 [US3] Adicionar guarda backend para `/dashboard/snapshot` que invalida sessão expirada em `apps/backend/src/dashboard/dashboard.guard.ts`
-- [ ] T313 [US3] Emitir evento `logout_click` + log estruturado em `apps/frontend/lib/telemetry/events.ts` e `apps/backend/src/common/logging/logger.service.ts`
+- [x] T310 [P] [US3] Implementar botão "Sair" em `apps/frontend/app/dashboard/_components/HeaderActions.tsx` chamando `session.clear()` e roteando para `/login`
+- [x] T311 [US3] Criar `SidebarNav` com itens desabilitados e tooltip explicativa em `apps/frontend/components/layout/SidebarNav.tsx`
+- [x] T312 [US3] Adicionar guarda backend para `/dashboard/snapshot` que invalida sessão expirada em `apps/backend/src/dashboard/dashboard.guard.ts`
+- [x] T313 [US3] Emitir evento `logout_click` + log estruturado em `apps/frontend/lib/telemetry/events.ts` e `apps/backend/src/common/logging/logger.service.ts`
 
 **Checkpoint**: Todos os fluxos autenticados cobertos e independentes.
 

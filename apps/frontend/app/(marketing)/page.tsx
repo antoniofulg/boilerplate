@@ -1,15 +1,45 @@
+import { HeroSection } from './_components/HeroSection';
+import { BenefitsSection } from './_components/BenefitsSection';
+import { HowItWorksSection } from './_components/HowItWorksSection';
+import { Footer } from './_components/Footer';
+import { FloatingCTA } from './_components/FloatingCTA';
+import { StickyCTA } from './_components/StickyCTA';
+
 /**
  * Landing Page (SSG - Static Site Generation)
  * 
- * This page will be statically generated at build time for optimal performance.
- * Implementation will be completed in Phase 4 (User Story 2).
+ * Pre-rendered at build time for optimal performance.
+ * Includes:
+ * - Hero section with CTA
+ * - Benefits section (3 benefits)
+ * - How It Works section (3 steps)
+ * - Institutional footer
+ * - Sticky/floating CTA (always visible)
  */
 export default function LandingPage() {
   return (
-    <div>
-      <h1>Landing Page</h1>
-      <p>Coming soon - Phase 4 implementation</p>
+    <div className="min-h-screen flex flex-col">
+      {/* Sticky CTA for mobile */}
+      <StickyCTA />
+
+      {/* Hero Section */}
+      <HeroSection />
+
+      {/* Benefits Section */}
+      <BenefitsSection />
+
+      {/* How It Works Section */}
+      <HowItWorksSection />
+
+      {/* Footer */}
+      <Footer />
+
+      {/* Floating CTA for desktop */}
+      <FloatingCTA />
     </div>
   );
 }
 
+// SSG: Static Site Generation
+// This page is pre-rendered at build time
+export const dynamic = 'force-static';

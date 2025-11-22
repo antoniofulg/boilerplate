@@ -6,6 +6,7 @@
 
 export type TelemetryEvent =
   | { type: 'landing_cta_click' }
+  | { type: 'landing_section_view'; section: 'hero' | 'benefits' | 'how-it-works' }
   | { type: 'login_attempt'; email: string }
   | { type: 'login_success'; email: string }
   | { type: 'login_failure'; email: string; reason: string }

@@ -7,6 +7,7 @@ import type { AuthSessionPayload } from '@shared/contracts';
  * Session Guard
  * 
  * Validates HTTP-only secure cookie for authenticated requests
+ * Checks for expired sessions (24 hours validity)
  */
 function getSessionFromCookie(req: FastifyRequest): AuthSessionPayload | null {
   const cookieHeader = req.headers.cookie;
@@ -26,7 +27,18 @@ function getSessionFromCookie(req: FastifyRequest): AuthSessionPayload | null {
   }
 
   try {
-    return JSON.parse(decodeURIComponent(sessionCookie)) as AuthSessionPayload;
+    const session = JSON.parse(decodeURIComponent(sessionCookie)) as AuthSessionPayload;
+
+    // Check session expiration (24 hours)
+    const issuedAt = new Date(session.issuedAt);
+    const now = new Date();
+    const hoursSinceIssued = (now.getTime() - issuedAt.getTime()) / (1000 * 60 * 60);
+
+    if (hoursSinceIssued > 24) {
+      return null; // Session expired
+    }
+
+    return session;
   } catch {
     return null;
   }
