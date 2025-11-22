@@ -1,0 +1,29 @@
+# boilerplate Development Guidelines
+
+Auto-generated from all feature plans. Last updated: 2025-11-22
+
+## Active Technologies
+
+- Frontend Node.js 20 + Next.js 16 (React 19), Backend Node.js 20 + NestJS (Fastify adapter) + Tailwind CSS v4, shadcn/ui components, React Query for caching, Prisma ORM, Postgres (Dockerized), Zod shared contracts (001-voting-saas-ui)
+
+## Project Structure
+
+```text
+src/
+tests/
+```
+
+## Commands
+
+# Add commands for Frontend Node.js 20 + Next.js 16 (React 19), Backend Node.js 20 + NestJS (Fastify adapter)
+
+## Code Style
+
+Frontend Node.js 20 + Next.js 16 (React 19), Backend Node.js 20 + NestJS (Fastify adapter): Follow standard conventions
+
+## Recent Changes
+
+- 001-voting-saas-ui: Added Frontend Node.js 20 + Next.js 16 (React 19), Backend Node.js 20 + NestJS (Fastify adapter) + Tailwind CSS v4, shadcn/ui components, React Query for caching, Prisma ORM, Postgres (Dockerized), Zod shared contracts
+
+<!-- MANUAL ADDITIONS START -->
+<!-- MANUAL ADDITIONS END -->
