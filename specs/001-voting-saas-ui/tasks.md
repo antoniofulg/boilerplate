@@ -27,7 +27,7 @@
 
 **Purpose**: Update the single source of truth (Zod/OpenAPI) before building code.
 
-- [ ] T000 Bump `packages/contracts/package.json` version and add `AuthSessionPayload`, `DashboardSnapshot`, `MenuItemState` schemas in `packages/contracts/src/auth.ts` and `packages/contracts/src/dashboard.ts`
+- [ ] T000 Bump `packages/contracts/package.json` version and add `AuthSessionPayload`, `DashboardSnapshot`, `MenuItemState` schemas in `packages/contracts/src/auth.ts` and `packages/contracts/src/dashboard.ts` usando `type` (não `interface`) para melhor tree-shaking
 - [ ] T001 [P] Regenerate shared exports in `packages/contracts/src/index.ts` and update imports in `apps/backend/src/common/zod/contracts.ts` + `apps/frontend/lib/contracts.ts`
 - [ ] T002 Add runtime validation hooks: Nest pipes in `apps/backend/src/auth/auth.controller.ts` and React form/schema guards in `apps/frontend/app/login/page.tsx`
 - [ ] T003 Update API reference `specs/001-voting-saas-ui/contracts/openapi.yaml` to reflect final schema property names and examples
@@ -59,7 +59,7 @@
 - [ ] T023 Create shared Prisma service + repositories (`apps/backend/src/common/prisma/prisma.service.ts`) consumed by auth/dashboard modules
 - [ ] T024 Configure structured logging + analytics dispatcher in `apps/backend/src/common/logging/logger.service.ts` and `apps/frontend/lib/telemetry/events.ts`
 - [ ] T025 Setup environment handling + secrets loading in `apps/backend/src/config/config.module.ts` and `.env` templates for frontend/backend
-- [ ] T026 Add security baseline: HTTPS-only cookies, helmet/HSTS middleware in `apps/backend/src/main.ts`, and CSRF-safe fetch wrapper in `apps/frontend/lib/http/client.ts`
+- [ ] T026 Add security baseline: HTTP-only secure cookies (server-readable, XSS-safe), helmet/HSTS middleware in `apps/backend/src/main.ts`, e CSRF-safe fetch wrapper em `apps/frontend/lib/http/client.ts`
 - [ ] T027 [P] Configure shared feature flag registry in `packages/config/featureFlags.ts`, surface env toggles, and inject into `apps/backend/src/main.ts` + `apps/frontend/lib/featureFlag.ts`
 - [ ] T028 Add Fastify request timing middleware + metrics emitter in `apps/backend/src/common/observability/perf.interceptor.ts` logging `/auth/login` durations for p95 tracking
 
@@ -85,15 +85,15 @@
 
 ### Implementation for User Story 1
 
-- [ ] T110 [P] [US1] Implementar controller/serviço `/auth/login` em `apps/backend/src/auth/auth.controller.ts` + `auth.service.ts` (hash check, sessão mock, rate limit)
+- [ ] T110 [P] [US1] Implementar controller/serviço `/auth/login` em `apps/backend/src/auth/auth.controller.ts` + `auth.service.ts` (hash check, sessão mock, rate limit, definir HTTP-only secure cookie na resposta)
 - [ ] T111 [P] [US1] Expor `GET /dashboard/snapshot` em `apps/backend/src/dashboard/dashboard.controller.ts` retornando dados estáticos
-- [ ] T112 [US1] Criar middleware de sessão e utilitários em `apps/frontend/lib/auth/session.ts` + `apps/frontend/middleware.ts` para proteger `/dashboard`
-- [ ] T113 [US1] Construir tela de login em `apps/frontend/app/login/page.tsx` usando shadcn components, validações Zod e feedback de loading/erro
-- [ ] T114 [US1] Implementar dashboard estática com cabeçalho, cartões e listas em `apps/frontend/app/dashboard/page.tsx` consumindo React Query + snapshot
+- [ ] T112 [US1] Criar middleware de sessão e utilitários em `apps/frontend/lib/auth/session.ts` + `apps/frontend/middleware.ts` para proteger `/dashboard` usando HTTP-only secure cookies (server-readable)
+- [ ] T113 [US1] Construir tela de login em `apps/frontend/app/login/page.tsx` usando shadcn components, validações Zod e feedback de loading/erro (Server Component)
+- [ ] T114 [US1] Implementar dashboard estática como Server Component em `apps/frontend/app/dashboard/page.tsx` com fetch direto do backend (sem React Query no cliente), renderizando cabeçalho, cartões e listas
 - [ ] T115 [US1] Instrumentar analytics `login_attempt`, `login_success`, `login_failure` em `apps/frontend/lib/telemetry/events.ts` e disparar no login/dashboard
-- [ ] T116 [US1] Exibir mensagem “Esqueci a senha” (informativa) via modal/toast em `apps/frontend/app/login/_components/ForgotPasswordNotice.tsx`
+- [ ] T116 [US1] Exibir mensagem "Esqueci a senha" (informativa) via modal/toast em `apps/frontend/app/login/_components/ForgotPasswordNotice.tsx`
 - [ ] T117 [US1] Gatear `/dashboard` no frontend via `apps/frontend/lib/featureFlag.ts` + fallback `app/dashboard/coming-soon.tsx`, lendo `flag.staticDashboardMvp`
-- [ ] T118 [US1] Configurar React Query caching para `DashboardSnapshot` (staleTime, retry) em `apps/frontend/lib/query/dashboardSnapshot.ts`
+- [ ] T118 [US1] Configurar cache server-side para `DashboardSnapshot` usando Next.js cache (revalidate) em `apps/frontend/app/dashboard/page.tsx`
 
 **Checkpoint**: User Story 1 funcional e testável independentemente.
 
@@ -114,7 +114,7 @@
 
 - [ ] T210 [P] [US2] Implementar Hero + CTA em `apps/frontend/app/(marketing)/_components/HeroSection.tsx` com copy institucional
 - [ ] T211 [P] [US2] Criar componentes `BenefitsSection` e `HowItWorksSection` em `apps/frontend/app/(marketing)/_components/`
-- [ ] T212 [US2] Adicionar CTA sticky/floating que rotea para `/login` em `apps/frontend/app/(marketing)/page.tsx`
+- [ ] T212 [US2] Criar landing page como SSG (Static Site Generation) em `apps/frontend/app/(marketing)/page.tsx` com CTA sticky/floating que rotea para `/login`, exportando `generateStaticParams` se necessário
 - [ ] T213 [US2] Implementar rodapé institucional em `apps/frontend/app/(marketing)/_components/Footer.tsx`
 - [ ] T214 [US2] Instrumentar evento `landing_cta_click` e `landing_section_view` em `apps/frontend/lib/telemetry/events.ts`
 - [ ] T215 [P] [US2] Configurar code splitting/lazy loading (dynamic imports + `loading=\"lazy\"` imagens hero) em `apps/frontend/app/(marketing)/page.tsx` e validar com `pnpm next:analyze`

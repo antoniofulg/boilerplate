@@ -36,3 +36,26 @@
   - Hardcode `window.gtag` calls → brittle and blocks SSR builds.
   - Defer analytics entirely → conflicts with constitution section IV and would leave success metrics unmeasurable.
 
+## Decision 7: Session storage via HTTP-only secure cookies
+- **Rationale**: Enables Next.js Server Components to read session server-side, eliminates XSS risk (cookies not accessible to JavaScript), and allows middleware-based route protection without client-side checks. Aligns with performance focus by keeping auth logic server-side.
+- **Alternatives considered**:
+  - localStorage → requires client components, exposes tokens to XSS, cannot be read server-side.
+  - Hybrid approach → adds complexity without clear benefit for MVP.
+
+## Decision 8: Dashboard data fetching via Server Components with direct fetch
+- **Rationale**: Zero client JavaScript for data fetching reduces bundle size, improves performance (no hydration overhead for data), and aligns with Next.js 16 best practices. Server Components can fetch directly from backend, eliminating need for client-side React Query for static dashboard.
+- **Alternatives considered**:
+  - Client-side React Query → larger bundle, hydration overhead, unnecessary for static data.
+  - Hybrid (SSR + React Query) → adds complexity without performance benefit for MVP's static dashboard.
+
+## Decision 9: Landing page via Static Site Generation (SSG)
+- **Rationale**: Pre-rendered at build time delivers optimal performance (zero server load, instant CDN delivery), perfect for marketing content that doesn't change frequently. Aligns with performance focus and Next.js 16 capabilities.
+- **Alternatives considered**:
+  - SSR → unnecessary server load for static content, slower initial response.
+  - ISR → adds complexity without benefit for truly static marketing content.
+
+## Decision 10: TypeScript type preference over interface
+- **Rationale**: Performance-focused codebase benefits from `type` aliases (better tree-shaking, no declaration merging issues, more explicit). Aligns with modern TypeScript best practices for library code.
+- **Alternatives considered**:
+  - Use interfaces → acceptable but less optimal for shared contracts and library code.
+
