@@ -8,7 +8,9 @@ description: "Task list template for feature implementation"
 **Input**: Design documents from `/specs/[###-feature-name]/`
 **Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
 
-**Tests**: The examples below include test tasks. Tests are OPTIONAL - only include them if explicitly requested in the feature specification.
+**Tests**: Every feature MUST include at least one constitution-mandated essential test. Layer unit/integration coverage for critical logic and only add new E2E flows when they cover login → primary action → sucesso.
+
+**Workflow**: Tasks should track the sequence Tipos → Backend → Frontend → Teste essencial → Smoke test → Deploy staging → Deploy producao → Monitoramento.
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
@@ -44,13 +46,26 @@ description: "Task list template for feature implementation"
   ============================================================================
 -->
 
+## Phase 0: Shared Types & Contracts (Blocking)
+
+**Purpose**: Update the single source of truth (Zod/OpenAPI/tRPC/ts-rest) before building code.
+
+- [ ] T000 Version bump shared schema package and document changes in contracts/
+- [ ] T001 [P] Regenerate backend + frontend types/clients and wire imports
+- [ ] T002 Add runtime validation for all inbound/outbound payloads (API, queues, forms)
+
+**Checkpoint**: Contracts published and consumed; feature work can reference the new version safely.
+
+---
+
 ## Phase 1: Setup (Shared Infrastructure)
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Create project structure per implementation plan
-- [ ] T002 Initialize [language] project with [framework] dependencies
-- [ ] T003 [P] Configure linting and formatting tools
+- [ ] T010 Create project structure per implementation plan
+- [ ] T011 Initialize [language] project with [framework] dependencies
+- [ ] T012 [P] Configure ESLint + Prettier and add CI enforcement
+- [ ] T013 [P] Seed/extend the mini design system (button, input, modal, card, typography)
 
 ---
 
@@ -62,12 +77,13 @@ description: "Task list template for feature implementation"
 
 Examples of foundational tasks (adjust based on your project):
 
-- [ ] T004 Setup database schema and migrations framework
-- [ ] T005 [P] Implement authentication/authorization framework
-- [ ] T006 [P] Setup API routing and middleware structure
-- [ ] T007 Create base models/entities that all stories depend on
-- [ ] T008 Configure error handling and logging infrastructure
-- [ ] T009 Setup environment configuration management
+- [ ] T020 Setup database schema and migrations framework
+- [ ] T021 [P] Implement authentication/authorization framework
+- [ ] T022 [P] Setup API routing and middleware structure
+- [ ] T023 Create base models/entities that all stories depend on
+- [ ] T024 Configure error handling and logging infrastructure
+- [ ] T025 Setup environment configuration management + secrets handling
+- [ ] T026 Add security baseline (HTTPS, secure hashing, input validation, rate limiting)
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -79,21 +95,21 @@ Examples of foundational tasks (adjust based on your project):
 
 **Independent Test**: [How to verify this story works on its own]
 
-### Tests for User Story 1 (OPTIONAL - only if tests requested) ⚠️
+### Tests for User Story 1 (Essential first)
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T010 [P] [US1] Contract test for [endpoint] in tests/contract/test_[name].py
-- [ ] T011 [P] [US1] Integration test for [user journey] in tests/integration/test_[name].py
+- [ ] T100 [US1] Essential test for [core promise] in tests/[unit|integration]/test_[name].ts
+- [ ] T101 [P] [US1] Integration test for [user journey] in tests/integration/test_[name].ts
 
 ### Implementation for User Story 1
 
-- [ ] T012 [P] [US1] Create [Entity1] model in src/models/[entity1].py
-- [ ] T013 [P] [US1] Create [Entity2] model in src/models/[entity2].py
-- [ ] T014 [US1] Implement [Service] in src/services/[service].py (depends on T012, T013)
-- [ ] T015 [US1] Implement [endpoint/feature] in src/[location]/[file].py
-- [ ] T016 [US1] Add validation and error handling
-- [ ] T017 [US1] Add logging for user story 1 operations
+- [ ] T110 [P] [US1] Create [Entity1] model in src/models/[entity1].ts
+- [ ] T111 [P] [US1] Create [Entity2] model in src/models/[entity2].ts
+- [ ] T112 [US1] Implement [Service] in src/services/[service].ts (depends on T110, T111)
+- [ ] T113 [US1] Implement [endpoint/feature] in src/[location]/[file].ts
+- [ ] T114 [US1] Add validation and error handling (schema enforcement)
+- [ ] T115 [US1] Add logging + analytics events for user story 1 operations
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
@@ -105,17 +121,17 @@ Examples of foundational tasks (adjust based on your project):
 
 **Independent Test**: [How to verify this story works on its own]
 
-### Tests for User Story 2 (OPTIONAL - only if tests requested) ⚠️
+### Tests for User Story 2 (Maintain coverage)
 
-- [ ] T018 [P] [US2] Contract test for [endpoint] in tests/contract/test_[name].py
-- [ ] T019 [P] [US2] Integration test for [user journey] in tests/integration/test_[name].py
+- [ ] T200 [US2] Essential/Regression test for [secondary promise] in tests/[unit|integration]/test_[name].ts
+- [ ] T201 [P] [US2] Integration test for [user journey] in tests/integration/test_[name].ts
 
 ### Implementation for User Story 2
 
-- [ ] T020 [P] [US2] Create [Entity] model in src/models/[entity].py
-- [ ] T021 [US2] Implement [Service] in src/services/[service].py
-- [ ] T022 [US2] Implement [endpoint/feature] in src/[location]/[file].py
-- [ ] T023 [US2] Integrate with User Story 1 components (if needed)
+- [ ] T210 [P] [US2] Create [Entity] model in src/models/[entity].ts
+- [ ] T211 [US2] Implement [Service] in src/services/[service].ts
+- [ ] T212 [US2] Implement [endpoint/feature] in src/[location]/[file].ts
+- [ ] T213 [US2] Integrate with User Story 1 components (if needed)
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 
@@ -127,16 +143,16 @@ Examples of foundational tasks (adjust based on your project):
 
 **Independent Test**: [How to verify this story works on its own]
 
-### Tests for User Story 3 (OPTIONAL - only if tests requested) ⚠️
+### Tests for User Story 3 (Optional only if story approved)
 
-- [ ] T024 [P] [US3] Contract test for [endpoint] in tests/contract/test_[name].py
-- [ ] T025 [P] [US3] Integration test for [user journey] in tests/integration/test_[name].py
+- [ ] T300 [US3] Essential/Regression test for [tertiary promise] in tests/[unit|integration]/test_[name].ts
+- [ ] T301 [P] [US3] Integration test for [user journey] in tests/integration/test_[name].ts
 
 ### Implementation for User Story 3
 
-- [ ] T026 [P] [US3] Create [Entity] model in src/models/[entity].py
-- [ ] T027 [US3] Implement [Service] in src/services/[service].py
-- [ ] T028 [US3] Implement [endpoint/feature] in src/[location]/[file].py
+- [ ] T310 [P] [US3] Create [Entity] model in src/models/[entity].ts
+- [ ] T311 [US3] Implement [Service] in src/services/[service].ts
+- [ ] T312 [US3] Implement [endpoint/feature] in src/[location]/[file].ts
 
 **Checkpoint**: All user stories should now be independently functional
 
@@ -159,6 +175,18 @@ Examples of foundational tasks (adjust based on your project):
 
 ---
 
+## Release Checklist & Monitoring (Constitution)
+
+- [ ] R001 Shared types/contracts updated, published, and referenced by backend + frontend
+- [ ] R002 Backend deployed with schema validation + security baseline enabled
+- [ ] R003 Frontend integrated via design system components and free of console errors
+- [ ] R004 Essential automated test recorded in CI (lint → test → build)
+- [ ] R005 Manual smoke test executed with link to checklist results
+- [ ] R006 Deploy staging → smoke → production with feature flag/rollback documented
+- [ ] R007 Post-deploy monitoring active (errors, latency, onboarding + primary analytics)
+
+---
+
 ## Dependencies & Execution Order
 
 ### Phase Dependencies
@@ -178,7 +206,7 @@ Examples of foundational tasks (adjust based on your project):
 
 ### Within Each User Story
 
-- Tests (if included) MUST be written and FAIL before implementation
+- Tests MUST be written and FAIL before implementation
 - Models before services
 - Services before endpoints
 - Core implementation before integration

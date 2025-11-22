@@ -31,7 +31,12 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- **I. Qualidade de Codigo**: confirm ESLint + Prettier enforcement, consistent folder plan, ADRs for major choices, and dependency approvals.
+- **II. Tipagem entre Front e Back**: ensure shared schema/package updates land before implementation and every API call will import typed contracts + runtime validation.
+- **III. Testes minimos**: declare the essential automated test, outline unit/integration coverage for critical logic, and schedule the manual smoke test + CI lint→test→build order.
+- **IV. UX e Consistencia**: reference the mini design system components to touch, responsive breakpoints, feedback states, and analytics events for onboarding + main flow.
+- **V. Performance e Confiabilidade**: document how the plan stays under the 250 KB initial bundle, keeps API p95 < 300 ms, applies code splitting/caching/CDN, and releases via staging → smoke → prod behind flags.
+- **VI–VIII. Operacoes & Workflow**: prove CI/CD automation, security controls (HTTPS, hashing, validation, rate limit), and the feature checklist (types → backend → frontend → test → smoke → deploy → monitor).
 
 ## Project Structure
 

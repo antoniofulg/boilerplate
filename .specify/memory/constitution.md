@@ -1,50 +1,122 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report
+Version: N/A → 1.0.0
+Modified Principles:
+- Core slot 1 → I. Qualidade de Codigo (Code Quality)
+- Core slot 2 → II. Tipagem entre Front e Back (Shared Types)
+- Core slot 3 → III. Testes Minimos e Obrigatorios (Essential Tests)
+- Core slot 4 → IV. UX e Consistencia (Design System Discipline)
+- Core slot 5 → V. Performance e Confiabilidade (Perf & Reliability)
+Added Sections:
+- VI. Operacoes
+- VII. Fluxo de Desenvolvimento
+- VIII. Checklist de Feature Pronta
+Removed Sections:
+- None
+Templates requiring updates:
+- ✅ .specify/templates/plan-template.md
+- ✅ .specify/templates/spec-template.md
+- ✅ .specify/templates/tasks-template.md
+Follow-up TODOs:
+- None
+-->
+# Boilerplate Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Qualidade de Codigo
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+**Non-negotiables**
+- Favor straightforward implementations; reject speculative abstractions and premature layering.
+- Keep one repository-wide folder structure; document any variance before coding.
+- Enforce ESLint + Prettier locally and in CI for every JS/TS workspace.
+- Record architectural decisions (ADR or scoped note) for impactful changes within one business day.
+- Vet dependencies ruthlessly; add new packages only when they unlock clear product value.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+**Rationale**
+Lean, documented codebases stay maintainable, auditable, and onboarding-friendly.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### II. Tipagem entre Front e Back
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+**Non-negotiables**
+- Maintain a single source of truth for contracts (Zod/OpenAPI/tRPC/ts-rest) in a shared package.
+- API clients must import generated contracts; `any` or implicit response types are prohibited.
+- Validate every input/output at service boundaries using the shared schema.
+- Update and review the schema/types before starting feature implementation; CI fails if code references stale contracts.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+**Rationale**
+Shared, validated types eliminate drift between surfaces and stop runtime class bugs early.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### III. Testes minimos e obrigatorios
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+**Non-negotiables**
+- Each feature ships with at least one automated “essential” test covering its core promise.
+- Critical business logic requires unit coverage; APIs additionally need integration tests.
+- E2E flows are limited to login → primary action → success for revenue-critical journeys.
+- Teams execute and record a manual smoke test before every staging or production release.
+- CI order is lint → essential tests → build; the pipeline must fail-fast on any violation.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+**Rationale**
+Focused, layered testing provides high confidence without wasting cycles on brittle suites.
+
+### IV. UX e Consistencia
+
+**Non-negotiables**
+- Maintain a mini design system (button, input, modal, card, typography) and build UIs exclusively from it.
+- Keep interactions predictable; error handling and microcopy stay consistent across flows.
+- Provide immediate feedback for loading, success, empty, and error states with accessible messaging.
+- Guarantee minimum responsiveness (mobile portrait + desktop) before hand-off.
+- Instrument analytics for onboarding and the primary business flow using stable event names.
+
+**Rationale**
+A consistent, observable UX reduces user friction and shortens iteration loops.
+
+### V. Performance e Confiabilidade
+
+**Non-negotiables**
+- Keep the initial bundle below ~250 KB gzipped; treat overruns as blocking regressions.
+- Ensure API p95 latency stays under 300 ms with alerting on breaches.
+- Apply code splitting and lazy loading to all non-critical routes and components.
+- Ship front-end caching (React Query or equivalent) plus CDN-backed static assets by default.
+- Monitor errors and latency continuously; releases require green dashboards.
+- Follow the release path: deploy to staging → smoke test → production behind reversible feature flags.
+
+**Rationale**
+Aggressive budgets and guardrails keep the product fast, resilient, and safe to iterate.
+
+## VI. Operacoes
+
+- CI/CD must be automated, lightweight, and reproducible from local machines.
+- Security minimums are non-negotiable: HTTPS everywhere, secure password hashing, input validation, and rate limiting.
+- Emit structured logs and feed them into active monitoring/alerting for both backend and frontend.
+
+## VII. Fluxo de Desenvolvimento
+
+1. Atualizar tipos compartilhados com o escopo da feature.
+2. Implementar o backend seguindo os contratos validados.
+3. Implementar o frontend consumindo os mesmos tipos/geradores.
+4. Criar o teste essencial (unitario ou de integracao) e garantir falha antes da implementacao.
+5. Executar smoke test manual.
+6. Fazer deploy em staging.
+7. Fazer deploy em producao somente apos staging aprovado.
+8. Monitorar erros, latencia e analytics do fluxo principal.
+
+## VIII. Checklist de Feature Pronta
+
+- Tipos compartilhados atualizados e versionados.
+- Backend pronto e alinhado aos contratos.
+- Frontend integrado e sem console errors.
+- Teste essencial criado e executado em CI.
+- Smoke test manual aprovado.
+- Deploy realizado em staging e producao com log de auditoria.
+- Monitoramento ativo (erros + latencia + analytics principais).
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+- Esta constituicao prevalece sobre outras convenções do projeto; conflitos devem ser resolvidos referenciando estas regras.
+- Emendas exigem PR com ADR ou justificativa objetiva, revisão dos responsaveis de plataforma e atualização sincronizada das templates.
+- Versionamento segue SemVer: MAJOR para mudancas incompatíveis, MINOR para novos principios/secoes, PATCH para ajustes textuais.
+- Auditorias trimestrais verificam conformidade (lint config, tipos compartilhados, testes essenciais, design system, monitoramento).
+- Cada PR deve indicar explicitamente como passou pelo checklist da feature; merges sem checklist e smoke test documentado são bloqueados.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2025-11-22 | **Last Amended**: 2025-11-22

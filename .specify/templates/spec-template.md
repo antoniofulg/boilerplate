@@ -7,6 +7,8 @@
 
 ## User Scenarios & Testing *(mandatory)*
 
+*Identify which story delivers the constitution-required essential automated test.*
+
 <!--
   IMPORTANT: User stories should be PRIORITIZED as user journeys ordered by importance.
   Each user story/journey must be INDEPENDENTLY TESTABLE - meaning if you implement just ONE of them,
@@ -75,6 +77,14 @@
 - What happens when [boundary condition]?
 - How does system handle [error scenario]?
 
+## Shared Types & Validation *(mandatory)*
+
+- **Schema Source of Truth**: [Zod/OpenAPI/tRPC/ts-rest package + path]
+- **Coverage**: [Endpoints/entities covered by this update; note gaps]
+- **Validation Plan**: [Where schemas execute (backend handlers, frontend forms, queues)]
+- **Type Consumers**: [Frontend packages, backend services, tests importing the schema]
+- **Rollout**: [Version bumps, codegen steps, CI checks ensuring no `any`/implicit types]
+
 ## Requirements *(mandatory)*
 
 <!--
@@ -99,6 +109,31 @@
 
 - **[Entity 1]**: [What it represents, key attributes without implementation]
 - **[Entity 2]**: [What it represents, relationships to other entities]
+
+## UX, Design System & Analytics *(mandatory)*
+
+- **Design System Elements**: [Buttons/inputs/modals/cards/typography touched or added]
+- **Interaction Consistency**: [Reuse patterns for loading/error/empty states]
+- **Responsiveness Plan**: [Mobile portrait + desktop behavior]
+- **Feedback & Accessibility**: [Announcements, aria attributes, focus handling]
+- **Analytics Events**: [Onboarding + primary flow events, naming + payload schema]
+
+## Performance & Reliability Targets *(mandatory)*
+
+- **Bundle Budget**: [Strategy to stay <250 KB gzipped]
+- **API Latency Goal**: [Plan to keep p95 <300 ms; include caching/backpressure]
+- **Code Splitting / Lazy Loading**: [Routes/components loaded on demand]
+- **Caching & CDN**: [React Query policies, CDN invalidation]
+- **Monitoring**: [Dashboards/alerts to verify errors + latency regressions]
+- **Feature Flags**: [Flag name, rollout strategy, removal criteria]
+
+## Operational & Release Considerations *(mandatory)*
+
+- **CI/CD**: [Pipeline steps: lint → essential tests → build; any additional gates]
+- **Security Baseline**: [HTTPS, secure hashing, input validation, rate limiting updates]
+- **Manual Smoke Test**: [Owner + checklist to run before staging/prod deploy]
+- **Deploy Plan**: [Staging window, approval, production timing]
+- **Post-Deploy Monitoring**: [Metrics to watch + rollback triggers]
 
 ## Success Criteria *(mandatory)*
 
