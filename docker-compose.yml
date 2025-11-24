@@ -1,0 +1,67 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: smartvoto-postgres
+    environment:
+      POSTGRES_USER: smartvoto
+      POSTGRES_PASSWORD: smartvoto123
+      POSTGRES_DB: smartvoto
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U smartvoto"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: apps/backend/Dockerfile.dev
+    container_name: smartvoto-backend
+    environment:
+      DATABASE_URL: postgresql://smartvoto:smartvoto123@postgres:5432/smartvoto
+      PORT: 3001
+      NODE_ENV: development
+      FRONTEND_URL: http://localhost:3000
+      SESSION_SECRET: dev-secret-key-change-in-production
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./apps/backend:/app/apps/backend
+      - ./shared:/app/shared
+      - ./infrastructure:/app/infrastructure
+      - /app/apps/backend/node_modules
+      - /app/shared/packages/contracts/node_modules
+      - /app/shared/packages/config/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: .
+      dockerfile: apps/frontend/Dockerfile.dev
+    container_name: smartvoto-frontend
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:3001
+      NODE_ENV: development
+      NEXT_PUBLIC_FEATURE_FLAG_STATIC_DASHBOARD_MVP: "true"
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./apps/frontend:/app/apps/frontend
+      - ./shared:/app/shared
+      - /app/apps/frontend/node_modules
+      - /app/apps/frontend/.next
+      - /app/shared/packages/contracts/node_modules
+      - /app/shared/packages/config/node_modules
+      - /app/shared/packages/ui/node_modules
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+

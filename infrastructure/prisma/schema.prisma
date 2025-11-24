@@ -1,0 +1,41 @@
+// Prisma Schema
+// Database models for Smart Voting SaaS MVP
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../apps/backend/node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Auth User Model
+// Stores institutional user credentials for authentication
+model AuthUser {
+  id                  String   @id @default(uuid())
+  emailInstitucional  String   @unique
+  senhaHash           String   // bcrypt hash
+  userName            String
+  role                String   // "Presidente" | "Secretário" | "Vereador"
+  chamber             String
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@map("auth_users")
+}
+
+// Dashboard Snapshot Model
+// Stores static dashboard data for MVP (no real-time voting)
+model DashboardSnapshot {
+  id            String   @id @default(uuid())
+  currentSession Json   // SessionSummary type
+  agendaItem    Json   // AgendaItem type
+  memberPresence Json  // Array<MemberPresence>
+  recentResults Json   // Array<ResultLine>
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("dashboard_snapshots")
+}
