@@ -2,11 +2,11 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { AuthLoginRequestSchema, type AuthLoginRequest } from '@shared/contracts';
+import { AuthLoginRequestSchema, type AuthLoginRequest } from '../../../lib/contracts';
 import { apiFetch } from '../../../lib/http/client';
 import { trackEvent } from '../../../lib/telemetry/events';
-import { Button } from '@shared/ui';
-import { Input } from '@shared/ui';
+import { Button } from '../../../../shared/packages/ui/src/components/Button';
+import { Input } from '../../../../shared/packages/ui/src/components/Input';
 
 /**
  * Login Form Component (Client Component)

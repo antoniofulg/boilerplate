@@ -1,7 +1,7 @@
 import { Controller, Get, UseGuards, UnauthorizedException, Req } from '@nestjs/common';
 import { FastifyRequest } from 'fastify';
 import { DashboardService } from './dashboard.service';
-import type { AuthSessionPayload } from '@shared/contracts';
+import type { AuthSessionPayload } from '../common/zod/contracts';
 
 /**
  * Session Guard

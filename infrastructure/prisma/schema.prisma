@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../../apps/backend/node_modules/.prisma/client"
 }
 
 datasource db {
@@ -29,13 +30,12 @@ model AuthUser {
 // Stores static dashboard data for MVP (no real-time voting)
 model DashboardSnapshot {
   id            String   @id @default(uuid())
-  currentSession JSON   // SessionSummary type
-  agendaItem    JSON   // AgendaItem type
-  memberPresence JSON  // Array<MemberPresence>
-  recentResults JSON   // Array<ResultLine>
+  currentSession Json   // SessionSummary type
+  agendaItem    Json   // AgendaItem type
+  memberPresence Json  // Array<MemberPresence>
+  recentResults Json   // Array<ResultLine>
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
   @@map("dashboard_snapshots")
 }
-

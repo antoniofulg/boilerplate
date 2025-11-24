@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 import { getSession } from '../../lib/auth/session';
 import { isFeatureEnabled } from '../../lib/featureFlag';
 import { apiFetch } from '../../lib/http/client';
-import type { DashboardSnapshot } from '@shared/contracts';
+import type { DashboardSnapshot } from '../../lib/contracts';
 import { DashboardHeader } from './_components/DashboardHeader';
 import { SidebarNav } from './_components/SidebarNav';
 import { DashboardContent } from './_components/DashboardContent';

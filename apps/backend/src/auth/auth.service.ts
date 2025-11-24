@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from '../common/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
-import type { AuthLoginRequest, AuthSessionPayload } from '@shared/contracts';
+import type { AuthLoginRequest, AuthSessionPayload } from '../common/zod/contracts';
 import { LoggerService } from '../common/logging/logger.service';
 
 /**

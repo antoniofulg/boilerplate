@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../common/prisma/prisma.service';
-import type { DashboardSnapshot } from '@shared/contracts';
+import type { DashboardSnapshot } from '../common/zod/contracts';
 
 /**
  * Dashboard Service

@@ -19,5 +19,5 @@ export {
   type AgendaItem,
   type MemberPresence,
   type ResultLine,
-} from '@shared/contracts';
+} from '../../../shared/packages/contracts/src';
 

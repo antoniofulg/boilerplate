@@ -1,0 +1,24 @@
+{
+	"name": "smart-voting-mvp",
+	"version": "0.1.0",
+	"private": true,
+	"description": "Smart Voting SaaS MVP - Monorepo",
+	"workspaces": [
+		"apps/*",
+		"shared/packages/*"
+	],
+	"scripts": {
+		"dev": "docker-compose up --build",
+		"build": "npm run build --workspaces",
+		"test": "npm run test --workspaces",
+		"lint": "npm run lint --workspaces",
+		"format": "npm run format --workspaces"
+	},
+	"devDependencies": {
+		"typescript": "^5.3.3"
+	},
+	"engines": {
+		"node": ">=18.0.0",
+		"npm": ">=9.0.0"
+	}
+}

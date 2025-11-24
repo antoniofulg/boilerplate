@@ -4,6 +4,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { PrismaModule } from './common/prisma/prisma.module';
 import { ConfigModule } from './config/config.module';
 import { LoggerService } from './common/logging/logger.service';
+import { AppController } from './app.controller';
 
 /**
  * Root Application Module
@@ -11,6 +12,7 @@ import { LoggerService } from './common/logging/logger.service';
  */
 @Module({
   imports: [ConfigModule, PrismaModule, AuthModule, DashboardModule],
+  controllers: [AppController],
   providers: [LoggerService],
   exports: [LoggerService],
 })

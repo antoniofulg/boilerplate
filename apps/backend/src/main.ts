@@ -4,6 +4,7 @@ import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify
 import { AppModule } from './app.module';
 import helmet from '@fastify/helmet';
 import rateLimit from '@fastify/rate-limit';
+import cookie from '@fastify/cookie';
 import { getFeatureFlag } from '@shared/config/featureFlags';
 import { PerfInterceptor } from './common/observability/perf.interceptor';
 import { LoggerService } from './common/logging/logger.service';
@@ -22,6 +23,9 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter({ logger: true })
   );
+
+  // Cookie support
+  await app.register(cookie);
 
   // Security: Helmet for HTTP headers
   await app.register(helmet, {

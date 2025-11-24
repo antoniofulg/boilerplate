@@ -1,6 +1,6 @@
-import type { DashboardSnapshot } from '@shared/contracts';
-import { Card } from '@shared/ui';
-import { Typography } from '@shared/ui';
+import type { DashboardSnapshot } from '../../../lib/contracts';
+import { Card } from '../../../../shared/packages/ui/src/components/Card';
+import { Typography } from '../../../../shared/packages/ui/src/components/Typography';
 
 type DashboardContentProps = {
   snapshot: DashboardSnapshot;

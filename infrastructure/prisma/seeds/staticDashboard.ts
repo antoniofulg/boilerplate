@@ -3,7 +3,7 @@
  * 
  * Provides default user and dashboard snapshot for MVP testing
  */
-import type { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
 export async function seedStaticDashboard(prisma: PrismaClient) {

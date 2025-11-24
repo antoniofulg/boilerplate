@@ -4,7 +4,7 @@
  * Provides feature flag access for frontend components
  */
 
-import { getFeatureFlag } from '@shared/config/featureFlags';
+import { getFeatureFlag } from '../../../shared/packages/config/featureFlags';
 
 /**
  * Check if a feature flag is enabled

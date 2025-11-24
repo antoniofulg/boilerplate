@@ -1,7 +1,8 @@
 import { Controller, Post, Body, Res, HttpCode, HttpStatus } from '@nestjs/common';
-import { Response } from 'fastify';
+import type { FastifyReply } from 'fastify';
+import type { FastifyCookieOptions } from '@fastify/cookie';
 import { AuthService } from './auth.service';
-import { AuthLoginRequestSchema, type AuthLoginRequest } from '@shared/contracts';
+import { AuthLoginRequestSchema, type AuthLoginRequest } from '../common/zod/contracts';
 import { ConfigService } from '../config/config.service';
 
 /**
@@ -21,7 +22,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async login(
     @Body() body: AuthLoginRequest,
-    @Res() res: Response
+    @Res() res: FastifyReply
   ) {
     // Validate request body using Zod schema
     const validatedData = AuthLoginRequestSchema.parse(body);
@@ -34,13 +35,16 @@ export class AuthController {
     const cookieValue = JSON.stringify(sessionPayload);
     const isProduction = this.config.isProduction;
 
-    res.setCookie(cookieName, cookieValue, {
-      httpOnly: true, // XSS protection
-      secure: isProduction, // HTTPS only in production
-      sameSite: 'strict', // CSRF protection
-      maxAge: 60 * 60 * 24, // 24 hours
-      path: '/',
-    });
+    // Fastify setCookie method (available when @fastify/cookie is registered)
+    // Type assertion needed because TypeScript doesn't recognize the plugin types
+    (res as FastifyReply & { setCookie: (name: string, value: string, options?: FastifyCookieOptions) => void })
+      .setCookie(cookieName, cookieValue, {
+        httpOnly: true, // XSS protection
+        secure: isProduction, // HTTPS only in production
+        sameSite: 'strict', // CSRF protection
+        maxAge: 60 * 60 * 24, // 24 hours
+        path: '/',
+      });
 
     return res.send(sessionPayload);
   }

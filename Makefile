@@ -16,11 +16,14 @@ logs:
 	docker-compose logs -f
 
 # Database
+prisma.generate:
+	docker-compose exec backend npm run prisma:generate
+
 prisma.migrate:
 	docker-compose exec backend npm run prisma:migrate
 
 seed:
-	docker-compose exec backend npm run prisma:seed
+	docker-compose exec backend npx ts-node infrastructure/prisma/seeds/index.ts
 
 # Testing
 test:
