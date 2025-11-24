@@ -11,7 +11,7 @@ import { LoggerService } from './common/logging/logger.service';
 
 /**
  * Bootstrap NestJS application with Fastify
- * 
+ *
  * Features:
  * - Global validation pipes (Zod schemas)
  * - Rate limiting
@@ -77,4 +77,3 @@ async function bootstrap() {
 }
 
 bootstrap();
-

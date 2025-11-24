@@ -4,7 +4,7 @@ export type TypographyProps = {
   children: React.ReactNode;
   variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'body' | 'small' | 'caption';
   className?: string;
-  as?: keyof JSX.IntrinsicElements;
+  as?: React.ElementType;
 };
 
 /**
@@ -27,7 +27,7 @@ export function Typography({
     caption: 'text-xs text-neutral-500',
   };
 
-  const Component = as || (variant.startsWith('h') ? variant : 'p');
+  const Component = as || (variant.startsWith('h') ? (variant as React.ElementType) : 'p');
 
   return <Component className={`${variantClasses[variant]} ${className}`}>{children}</Component>;
 }

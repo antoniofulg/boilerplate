@@ -5,6 +5,7 @@ export type InputProps = {
   type?: 'text' | 'email' | 'password' | 'number';
   placeholder?: string;
   value?: string;
+  name?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error?: string;
   disabled?: boolean;
@@ -21,6 +22,7 @@ export function Input({
   type = 'text',
   placeholder,
   value,
+  name,
   onChange,
   error,
   disabled = false,
@@ -37,6 +39,7 @@ export function Input({
       )}
       <input
         type={type}
+        name={name}
         placeholder={placeholder}
         value={value}
         onChange={onChange}

@@ -7,7 +7,7 @@
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
-export type FetchOptions = RequestInit & {
+export type FetchOptions = Omit<RequestInit, 'body'> & {
   body?: unknown;
 };
 
@@ -19,7 +19,7 @@ export type FetchOptions = RequestInit & {
  * - JSON body serialization
  * - Error handling
  */
-export async function apiFetch(endpoint: string, options: FetchOptions = {}) {
+export async function apiFetch<T = unknown>(endpoint: string, options: FetchOptions = {}): Promise<T> {
   const { body, ...fetchOptions } = options;
 
   const headers: HeadersInit = {
@@ -39,6 +39,6 @@ export async function apiFetch(endpoint: string, options: FetchOptions = {}) {
     throw new Error(error.message || `HTTP ${response.status}`);
   }
 
-  return response.json();
+  return response.json() as Promise<T>;
 }
 

@@ -5,8 +5,7 @@ import { useRouter } from 'next/navigation';
 import { AuthLoginRequestSchema, type AuthLoginRequest } from '../../../lib/contracts';
 import { apiFetch } from '../../../lib/http/client';
 import { trackEvent } from '../../../lib/telemetry/events';
-import { Button } from '../../../../shared/packages/ui/src/components/Button';
-import { Input } from '../../../../shared/packages/ui/src/components/Input';
+import { Button, Input } from '@shared/ui';
 
 /**
  * Login Form Component (Client Component)
@@ -78,7 +77,7 @@ export function LoginForm() {
         type="email"
         name="emailInstitucional"
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
         required
         disabled={loading}
       />
@@ -88,7 +87,7 @@ export function LoginForm() {
         type="password"
         name="senha"
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
         required
         disabled={loading}
       />

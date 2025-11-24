@@ -1,14 +1,13 @@
 {
-  "name": "@shared/config",
-  "version": "0.1.0",
-  "description": "Shared configuration (feature flags, etc.)",
-  "main": "./featureFlags.ts",
-  "types": "./featureFlags.ts",
-  "scripts": {
-    "typecheck": "tsc --noEmit"
-  },
-  "devDependencies": {
-    "typescript": "^5.3.3"
-  }
+	"name": "@shared/config",
+	"version": "0.1.0",
+	"description": "Shared configuration (feature flags, etc.)",
+	"main": "./featureFlags.ts",
+	"types": "./featureFlags.ts",
+	"scripts": {
+		"typecheck": "tsc --noEmit"
+	},
+	"devDependencies": {
+		"typescript": "^5.6.3"
+	}
 }
-
